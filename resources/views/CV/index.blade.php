@@ -20,36 +20,39 @@
             }
         </style>
     </noscript>
+    @if(!request()->is('share', 'share/*'))
+        <meta name="description" content="{{$global_settings->meta_description}}">
+        <meta name="keywords" content="{{$global_settings->meta_keywords}}">
+        <meta name="author" content="{{$basic_information->name_surname}}">
+        <meta name="robots" content="index, follow"/>
 
-    <meta name="description" content="{{$global_settings->meta_description}}">
-    <meta name="keywords" content="{{$global_settings->meta_keywords}}">
-    <meta name="author" content="{{$basic_information->name_surname}}">
-    <meta name="robots" content="index, follow"/>
+        @foreach(explode(",",$global_settings->meta_keywords) as $item)
+            <meta property="article:tag" content="{{trim($item)}}"/>
+        @endforeach
 
-    @foreach(explode(",",$global_settings->meta_keywords) as $item)
-        <meta property="article:tag" content="{{trim($item)}}"/>
-    @endforeach
-
-    <meta property="og:url" content="{{config('app.url')}}"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:locale" content="en"/>
-    <meta property="og:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
-    <meta property="og:description" content="{{$global_settings->meta_description}}"/>
-    <meta property="og:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}">
-    <meta property="og:image:url" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
-    <meta property="og:image:secure_url" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
-    <meta property="og:image:alt" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}">
-    @if($basic_information->facebook)
-        <meta property="article:author" content="https://www.facebook.com/{{$basic_information->facebook}}">
-    @endif
-    @if($basic_information->twitter)
-        <meta name="twitter:card" content="summary"/>
-        <meta name="twitter:site" content="{{$basic_information->twitter}}"/>
-        <meta name="twitter:creator" content="{{$basic_information->twitter}}"/>
-        <meta name="twitter:description" content="{{$global_settings->meta_description}}"/>
-        <meta name="twitter:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
-        <meta name="twitter:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
-        <meta name="twitter:image:src" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        <meta property="og:url" content="{{config('app.url')}}"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:locale" content="en"/>
+        <meta property="og:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
+        <meta property="og:description" content="{{$global_settings->meta_description}}"/>
+        <meta property="og:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}">
+        <meta property="og:image:url" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        <meta property="og:image:secure_url" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        <meta property="og:image:alt" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}">
+        @if($basic_information->facebook)
+            <meta property="article:author" content="https://www.facebook.com/{{$basic_information->facebook}}">
+        @endif
+        @if($basic_information->twitter)
+            <meta name="twitter:card" content="summary"/>
+            <meta name="twitter:site" content="{{$basic_information->twitter}}"/>
+            <meta name="twitter:creator" content="{{$basic_information->twitter}}"/>
+            <meta name="twitter:description" content="{{$global_settings->meta_description}}"/>
+            <meta name="twitter:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
+            <meta name="twitter:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+            <meta name="twitter:image:src" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        @endif
+    @else
+        <meta name="robots" content="noindex, nofollow"/>
     @endif
 
     <link rel="dns-prefetch" href="https://mc.yandex.ru"/>
@@ -257,7 +260,7 @@
                                                 <div class="row">
                                                     <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
                                                         <div class="card-body cc-experience-header">
-                                                            <img src="{{config('app.url')}}/public/CV/images/github-repositories.jpg" alt="{{$github->name}}"/>
+                                                            <img src="{{config('app.url')}}/public/CV/images/github-repositories.jpg" alt="{{$github->name}}" class="img-fluid"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
