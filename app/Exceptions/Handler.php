@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
             if ($e->getStatusCode() == 404) {
                 return response()->view('/404', compact([]), 404);
             }
-            if ($e->getStatusCode() == 503) {
+            if ($e->getStatusCode() == 503 || $e->getStatusCode() == 500) {
                 return response()->view('/503', compact([]), 503);
             }
         }

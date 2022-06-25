@@ -34,23 +34,33 @@ function DetectIPAddress(): string
     return $ipexp[0];
 }
 
-function CheckPrivacy($data, $privacy, $date=false)
+function CheckPrivacy($data, $privacy, $date=false, $share_token=null)
 {
     $length = strlen($data);
     if ($date){
-        if ($privacy->show_birthday){
-            if($privacy->birthday_only_year) return dateformat($data, 'Y');
-            else return dateformat($data, 'd.m.Y');
+        if($share_token){
+            return dateformat($data, 'd.m.Y');
         }
-        else
-            return substr_replace($data, str_repeat("*", $length-3), 1, $length-2);
+        else{
+            if ($privacy->show_birthday){
+                if($privacy->birthday_only_year) return dateformat($data, 'Y');
+                else return dateformat($data, 'd.m.Y');
+            }
+            else
+                return substr_replace($data, str_repeat("*", $length-3), 1, $length-2);
+        }
     }
     else{
-        if ($privacy){
+        if($share_token){
             return $data;
         }
         else{
-            return substr_replace($data, str_repeat("*", $length-3), 1, $length-2);
+            if ($privacy){
+                return $data;
+            }
+            else{
+                return substr_replace($data, str_repeat("*", $length-3), 1, $length-2);
+            }
         }
     }
 }

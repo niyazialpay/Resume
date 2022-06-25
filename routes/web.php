@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\CVController::class, 'CV']);
 Route::post('/contact', [App\Http\Controllers\SendEmailController::class, 'contact']);
+Route::get('/share/{token}', [App\Http\Controllers\CVController::class, 'ShareCV']);
 
 Auth::routes();
 
