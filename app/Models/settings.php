@@ -15,7 +15,7 @@ class settings extends Model
       }
       else {
           $settings = Cache::rememberForever(config('settings.cache_prefix').'site_settings', function() {
-                return DB::table('site_settings')->join('smtp_settings', 'site_settings.id', '=', 'smtp_settings.settings_id')->first();
+                return DB::table('site_settings')->leftJoin('smtp_settings', 'site_settings.id', '=', 'smtp_settings.settings_id')->first();
             });
       }
       return $settings;

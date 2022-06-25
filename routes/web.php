@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('CV.index');
-});
+Route::get('/', [App\Http\Controllers\CVController::class, 'CV']);
+Route::post('/contact', [App\Http\Controllers\SendEmailController::class, 'contact']);
 
 Auth::routes();
 

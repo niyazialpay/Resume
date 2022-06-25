@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Mail\Mail as SendMail;
+use App\Models\BasicInformation;
 use App\Models\settings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -14,6 +15,10 @@ use Illuminate\Validation\ValidationException;
 
 class SendEmailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('recaptcha');
+    }
 
     /**
      * @throws ValidationException
@@ -25,7 +30,6 @@ class SendEmailController extends Controller
             'email'  =>  'required|email',
             'subject'  =>  'required',
             'message' =>  'required',
-            'recaptcha_response' => 'required'
         ]);
 
         $data = [
@@ -41,25 +45,14 @@ class SendEmailController extends Controller
 
     private function sendEmail($data): Response|Application|ResponseFactory
     {
-        try{
-            $settings = settings::getSiteSettings();
+        $basic_information = BasicInformation::getBasicInformation();
 
-            Mail::to($settings->contact_email)->send(new SendMail($data));
-            return response(json_encode([
-                "result" => true,
-                "reason" => [
-                    "csrf_token" => csrf_token()
-                ]
-            ]))->header('Content-Type','application/json');
-        }
-        catch (\Exception $exception){
-            return response(json_encode([
-                "result" => false,
-                "reason" => [
-                    "description" => $exception->getMessage(),
-                    "csrf_token" => csrf_token()
-                ]
-            ]))->header('Content-Type','application/json');
-        }
+        Mail::to($basic_information->email)->send(new SendMail($data));
+        return response(json_encode([
+            "result" => true,
+            "reason" => [
+                "csrf_token" => csrf_token()
+            ]
+        ]))->header('Content-Type','application/json');
     }
 }

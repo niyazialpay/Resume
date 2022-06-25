@@ -4,7 +4,7 @@
 $(document).ready(function() {
   AOS.init( {
     // uncomment below for on-scroll animations to played only once
-    // once: true  
+    // once: true
   }); // initialize animate on scroll library
 });
 
@@ -13,8 +13,8 @@ $('a.smooth-scroll')
 .click(function(event) {
   // On-page links
   if (
-    location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
-    && 
+    location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+    &&
     location.hostname == this.hostname
   ) {
     // Figure out element to scroll to
