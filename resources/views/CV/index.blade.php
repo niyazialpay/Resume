@@ -40,16 +40,16 @@
     <meta property="og:image:secure_url" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
     <meta property="og:image:alt" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}">
     @if($basic_information->facebook)
-    <meta property="article:author" content="https://www.facebook.com/{{$basic_information->facebook}}">
+        <meta property="article:author" content="https://www.facebook.com/{{$basic_information->facebook}}">
     @endif
     @if($basic_information->twitter)
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:site" content="{{$basic_information->twitter}}"/>
-    <meta name="twitter:creator" content="{{$basic_information->twitter}}"/>
-    <meta name="twitter:description" content="{{$global_settings->meta_description}}"/>
-    <meta name="twitter:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
-    <meta name="twitter:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
-    <meta name="twitter:image:src" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="{{$basic_information->twitter}}"/>
+        <meta name="twitter:creator" content="{{$basic_information->twitter}}"/>
+        <meta name="twitter:description" content="{{$global_settings->meta_description}}"/>
+        <meta name="twitter:title" content="{{$basic_information->name_surname}} - {{$basic_information->job_title}}"/>
+        <meta name="twitter:image" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
+        <meta name="twitter:image:src" content="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}"/>
     @endif
 
     <link rel="dns-prefetch" href="https://mc.yandex.ru"/>
@@ -104,7 +104,7 @@
                         <li class="nav-item"><a class="nav-link smooth-scroll" href="#experience">Experience</a></li>
                         <li class="nav-item"><a class="nav-link smooth-scroll" href="#contact">Contact</a></li>
                         @if($basic_information->website)
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="{{$basic_information->website}}" target="_blank" rel="author">{{$basic_information->website_title}}</a></li>
+                            <li class="nav-item"><a class="nav-link smooth-scroll" href="{{$basic_information->website}}" target="_blank" rel="author">{{$basic_information->website_title}}</a></li>
                         @endif
                     </ul>
                 </div>
@@ -132,19 +132,19 @@
                                     <a class="btn btn-default btn-round btn-lg btn-icon" href="https://github.com/{{$basic_information->github}}" rel="tooltip" title="Follow me on Github" target="_blank"><i class="fa fa-github"></i></a>
                                 @endif
                                 @if($basic_information->linkedin)
-                                        <a class="btn btn-default btn-round btn-lg btn-icon" href="https://linkedin.com/in/{{$basic_information->linkedin}}" rel="tooltip" title="Follow me on Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    <a class="btn btn-default btn-round btn-lg btn-icon" href="https://linkedin.com/in/{{$basic_information->linkedin}}" rel="tooltip" title="Follow me on Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
                                 @endif
                                 @if($basic_information->facebook)
-                                        <a class="btn btn-default btn-round btn-lg btn-icon" href="https://facebook.com/{{$basic_information->facebook}}" rel="tooltip" title="Follow me on Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    <a class="btn btn-default btn-round btn-lg btn-icon" href="https://facebook.com/{{$basic_information->facebook}}" rel="tooltip" title="Follow me on Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
                                 @endif
                                 @if($basic_information->twitter)
-                                        <a class="btn btn-default btn-round btn-lg btn-icon" href="https://twitter.com/{{$basic_information->twitter}}" rel="tooltip" title="Follow me on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                                    <a class="btn btn-default btn-round btn-lg btn-icon" href="https://twitter.com/{{$basic_information->twitter}}" rel="tooltip" title="Follow me on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
                                 @endif
                                 @if($basic_information->instagram)
-                                        <a class="btn btn-default btn-round btn-lg btn-icon" href="https://instagram.com/{{$basic_information->instagram}}" rel="tooltip" title="Follow me on Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+                                    <a class="btn btn-default btn-round btn-lg btn-icon" href="https://instagram.com/{{$basic_information->instagram}}" rel="tooltip" title="Follow me on Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
                                 @endif
                                 @if($basic_information->behance)
-                                        <a class="btn btn-default btn-round btn-lg btn-icon" href="https://www.behance.net/{{$basic_information->behance}}" rel="tooltip" title="Follow me on Behance" target="_blank"><i class="fa fa-behance"></i></a>
+                                    <a class="btn btn-default btn-round btn-lg btn-icon" href="https://www.behance.net/{{$basic_information->behance}}" rel="tooltip" title="Follow me on Behance" target="_blank"><i class="fa fa-behance"></i></a>
                                 @endif
                             </div>
                         </div>
@@ -198,13 +198,13 @@
                     <div class="card-body">
                         <div class="row">
                             @foreach($skills as $skill)
-                            <div class="col-md-6">
-                                <div class="progress-container progress-primary"><span class="progress-badge">{{$skill->skill_name}}</span>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-primary" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$skill->skill_progress}}%;"></div><span class="progress-value">{{$skill->skill_progress}}%</span>
+                                <div class="col-md-6">
+                                    <div class="progress-container progress-primary"><span class="progress-badge">{{$skill->skill_name}}</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-primary" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$skill->skill_progress}}%;"></div><span class="progress-value">{{$skill->skill_progress}}%</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -223,15 +223,15 @@
                         <div class="ml-auto mr-auto">
                             <div class="row">
                                 @foreach($portfolios as $portfolio)
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="{{$portfolio->portfolio_web}}" target="_blank" rel="nofollow">
-                                            <figure class="cc-effect"><img src="{{config('app.url')}}/storage/images/portfolio/{{$portfolio->portfolio_image}}" alt="{{$portfolio->portfolio_name}}" class="portfolio-image"/>
-                                                <figcaption>
-                                                    <div class="h4">{{$portfolio->portfolio_name}}</div>
-                                                    <p>{{$portfolio->portfolio_description}}</p>
-                                                </figcaption>
-                                            </figure></a></div>
-                                </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="{{$portfolio->portfolio_web}}" target="_blank" rel="nofollow">
+                                                <figure class="cc-effect"><img src="{{config('app.url')}}/storage/images/portfolio/{{$portfolio->portfolio_image}}" alt="{{$portfolio->portfolio_name}}" class="portfolio-image"/>
+                                                    <figcaption>
+                                                        <div class="h4">{{$portfolio->portfolio_name}}</div>
+                                                        <p>{{$portfolio->portfolio_description}}</p>
+                                                    </figcaption>
+                                                </figure></a></div>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -239,26 +239,64 @@
                 </div>
             </div>
         </div>
-        <div class="section" id="experience">
-            <div class="container cc-experience">
-                <div class="h4 text-center mb-4 title">Work Experience</div>
-                @foreach($experiences as $experience)
-                <div class="card">
+        @if($global_settings->github_token)
+            <div class="section" id="github-repos">
+                <div class="container">
                     <div class="row">
-                        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body cc-experience-header">
-                                <p>{{dateformat($experience->start_date, 'M Y')}} - @if($experience->end_date !=null) {{dateformat($experience->end_date, 'M Y')}}@else Present @endif </p>
-                                <div class="h5">{{$experience->company_name}}</div>
-                            </div>
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="h4 text-center mb-4 title">My Github Repositories</div>
                         </div>
-                        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body">
-                                <div class="h5">{{$experience->job_title}}</div>
-                                <p>{{$experience->work_description}}</p>
+                    </div>
+                    <div class="tab-content gallery mt-5">
+                        <div class="tab-pane active" id="git-projects">
+                            <div class="ml-auto mr-auto">
+                                <div class="row">
+                                    @foreach($github_repos as $github)
+                                        @if(!$github->fork && $github->name!=$global_settings->github_username)
+                                            <div class="card">
+                                                <div class="row">
+                                                    <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                                                        <div class="card-body cc-experience-header">
+                                                            <img src="{{config('app.url')}}/public/CV/images/github-repositories.jpg" alt="{{$github->name}}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                                                        <div class="card-body">
+                                                            <div class="h5"><a href="{{$github->html_url}}" target="_blank">{{$github->name}}</a></div>
+                                                            <p>{{$github->description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        @endif
+        <div class="section" id="experience">
+            <div class="container cc-experience">
+                <div class="h4 text-center mb-4 title">Work Experience</div>
+                @foreach($experiences as $experience)
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                                <div class="card-body cc-experience-header">
+                                    <p>{{dateformat($experience->start_date, 'M Y')}} - @if($experience->end_date !=null) {{dateformat($experience->end_date, 'M Y')}}@else Present @endif </p>
+                                    <div class="h5">{{$experience->company_name}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                                <div class="card-body">
+                                    <div class="h5">{{$experience->job_title}}</div>
+                                    <p>{{$experience->work_description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -266,21 +304,21 @@
             <div class="container cc-education">
                 <div class="h4 text-center mb-4 title">Education</div>
                 @foreach($educations as $education)
-                <div class="card">
-                    <div class="row">
-                        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body cc-education-header">
-                                <p>{{dateformat($education->start_date, 'Y')}} - @if($education->end_date!=null) {{dateformat($education->end_date, 'Y')}} @else Present @endif </p>
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                                <div class="card-body cc-education-header">
+                                    <p>{{dateformat($education->start_date, 'Y')}} - @if($education->end_date!=null) {{dateformat($education->end_date, 'Y')}} @else Present @endif </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body">
-                                <div class="h5">{{$education->school_name}}</div>
-                                <p class="category">{{$education->section}}</p>
+                            <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                                <div class="card-body">
+                                    <div class="h5">{{$education->school_name}}</div>
+                                    <p class="category">{{$education->section}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>

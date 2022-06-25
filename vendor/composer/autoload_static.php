@@ -626,11 +626,6 @@ class ComposerStaticInitb788f534f68315777a65f94fa23eb72c
     );
 
     public static $classMap = array (
-        'App\\Actions\\Fortify\\CreateNewUser' => __DIR__ . '/../..' . '/app/Actions/Fortify/CreateNewUser.php',
-        'App\\Actions\\Fortify\\PasswordValidationRules' => __DIR__ . '/../..' . '/app/Actions/Fortify/PasswordValidationRules.php',
-        'App\\Actions\\Fortify\\ResetUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/ResetUserPassword.php',
-        'App\\Actions\\Fortify\\UpdateUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserPassword.php',
-        'App\\Actions\\Fortify\\UpdateUserProfileInformation' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserProfileInformation.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -664,6 +659,7 @@ class ComposerStaticInitb788f534f68315777a65f94fa23eb72c
         'App\\Models\\BasicInformation' => __DIR__ . '/../..' . '/app/Models/BasicInformation.php',
         'App\\Models\\Education' => __DIR__ . '/../..' . '/app/Models/Education.php',
         'App\\Models\\Experience' => __DIR__ . '/../..' . '/app/Models/Experience.php',
+        'App\\Models\\Github' => __DIR__ . '/../..' . '/app/Models/Github.php',
         'App\\Models\\IPFilter' => __DIR__ . '/../..' . '/app/Models/IPFilter.php',
         'App\\Models\\Portfolio' => __DIR__ . '/../..' . '/app/Models/Portfolio.php',
         'App\\Models\\Privacy' => __DIR__ . '/../..' . '/app/Models/Privacy.php',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BasicInformation;
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Github;
 use App\Models\Portfolio;
 use App\Models\Skills;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,6 +23,7 @@ class CVController extends Controller
             'portfolios' => Portfolio::getPortfolio(),
             'experiences' => Experience::getExperience(),
             'educations' => Education::getEducation(),
+            'github_repos' => Github::GithubRepos()
         ]);
     }
 }
