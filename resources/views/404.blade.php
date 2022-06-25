@@ -16,7 +16,7 @@
         }
         @font-face {
             font-family: lucida-console;
-            src: url('{{config('app.url')}}/public/CV/css/lucida-console.ttf');
+            src: url('{{config('app.url')}}/public/CV/fonts/lucida-console.ttf');
         }
         a{
             color:#ffffff;
