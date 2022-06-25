@@ -173,6 +173,7 @@ CREATE TABLE `site_settings` (
                                  `meta_keywords` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
                                  `meta_description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
                                  `github_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                 `github_username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
                                  `google` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                  `yandex` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                  `bing` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
