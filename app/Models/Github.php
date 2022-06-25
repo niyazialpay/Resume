@@ -18,7 +18,7 @@ class Github extends Model
             $repos = Cache::get($cache_key);
         }
         else{
-            $repos = Cache::rememberForever($cache_key, function () use ($settings) {
+            $repos = Cache::remember($cache_key,1440, function () use ($settings) {
                 $client = new Client();
                 $response = $client->request('GET', 'https://api.github.com/users/' . $settings->github_username . '/repos', [
                     'headers' => [
