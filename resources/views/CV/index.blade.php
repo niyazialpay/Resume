@@ -94,7 +94,7 @@
 {!! $global_settings->google_tag_manager_body !!}
 <header>
     <div class="profile-page sidebar-collapse">
-        <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary" color-on-scroll="400">
             <div class="container">
                 <div class="navbar-translate"><a class="navbar-brand" href="#" rel="tooltip"><img src="{{config('app.url')}}/storage/images/site/{{$global_settings->logo}}" alt="{{$basic_information->name_surname}}" height="50"></a>
                     <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-bar bar1"></span><span class="navbar-toggler-bar bar2"></span><span class="navbar-toggler-bar bar3"></span></button>
@@ -336,7 +336,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="card-body">
-                                                <form action="javascript:void(0);" method="POST" id="contact-form">
+                                                <form action="javascript:void(0)" method="POST" id="contact-form">
                                                     <div class="p pb-3"><strong>Feel free to contact me </strong></div>
                                                     <div class="row mb-3">
                                                         <div class="col">
