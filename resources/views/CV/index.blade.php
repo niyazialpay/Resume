@@ -167,19 +167,19 @@
                                 <div class="h4 mt-0 title">Basic Information</div>
                                 <div class="row">
                                     <div class="col-sm-4"><strong class="text-uppercase">Birthday:</strong></div>
-                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->birthday, $basic_information, true)}}</div>
+                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->birthday, $basic_information, true, share_token: $share_token)}}</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Email:</strong></div>
-                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->email, $basic_information->show_email)}}</div>
+                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->email, $basic_information->show_email, share_token: $share_token)}}</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
-                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->phone, $basic_information->show_phone)}}</div>
+                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->phone, $basic_information->show_phone, share_token: $share_token)}}</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Address:</strong></div>
-                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->address, $basic_information->show_address)}}</div>
+                                    <div class="col-sm-8">{{CheckPrivacy($basic_information->address, $basic_information->show_address, share_token: $share_token)}}</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Language:</strong></div>

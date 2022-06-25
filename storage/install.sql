@@ -108,23 +108,6 @@ CREATE TABLE `password_resets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 -- --------------------------------------------------------
 
---
--- Table structure for table `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-                                          `id` bigint UNSIGNED NOT NULL,
-                                          `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                          `tokenable_id` bigint UNSIGNED NOT NULL,
-                                          `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                          `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                          `abilities` text COLLATE utf8mb4_unicode_ci,
-                                          `last_used_at` timestamp NULL DEFAULT NULL,
-                                          `created_at` timestamp NULL DEFAULT NULL,
-                                          `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `portfolio`
@@ -302,12 +285,6 @@ ALTER TABLE `password_resets`
     ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-    ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Indexes for table `portfolio`
@@ -397,12 +374,6 @@ ALTER TABLE `ip_filter`
 --
 ALTER TABLE `migrations`
     MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-    MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `portfolio`
@@ -498,6 +469,17 @@ ALTER TABLE `social_network`
 ALTER TABLE `work_experience`
     ADD CONSTRAINT `work_experience_user_id` FOREIGN KEY (`user_id`) REFERENCES `basic_information` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
+
+create table share_tokens
+(
+    id          int unsigned auto_increment
+        primary key,
+    token       varchar(255) not null,
+    expire_date datetime     null
+)
+    collate = utf8mb4_unicode_ci;
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
