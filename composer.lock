@@ -1074,16 +1074,16 @@
         },
         {
             "name": "laravel/installer",
-            "version": "v4.2.10",
+            "version": "v4.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/installer.git",
-                "reference": "80f00b89da8c0be58a470ed4dcabd755f586974d"
+                "reference": "83323d3658c8af7943f88e7394bd50fbf0238e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/installer/zipball/80f00b89da8c0be58a470ed4dcabd755f586974d",
-                "reference": "80f00b89da8c0be58a470ed4dcabd755f586974d",
+                "url": "https://api.github.com/repos/laravel/installer/zipball/83323d3658c8af7943f88e7394bd50fbf0238e5c",
+                "reference": "83323d3658c8af7943f88e7394bd50fbf0238e5c",
                 "shasum": ""
             },
             "require": {
@@ -1124,9 +1124,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/installer/issues",
-                "source": "https://github.com/laravel/installer/tree/v4.2.10"
+                "source": "https://github.com/laravel/installer/tree/v4.2.11"
             },
-            "time": "2022-01-18T17:59:34+00:00"
+            "time": "2022-06-28T15:58:08+00:00"
         },
         {
             "name": "laravel/sanctum",
