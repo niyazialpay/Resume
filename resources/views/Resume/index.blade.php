@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{$basic_information->name_surname}} - {{$basic_information->job_title}}</title>
+    <meta name="generator" content="Cryptograph" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{config('app.url')}}/public/CV/css/aos.css?ver=1.1.0" rel="stylesheet">
-    <link href="{{config('app.url')}}/public/CV/css/bootstrap.min.css?ver=1.1.0" rel="stylesheet">
-    <link href="{{config('app.url')}}/public/CV/css/main.min.css?ver=1.1.0" rel="stylesheet">
+    <link href="{{config('app.url')}}/public/Resume/css/aos.css?ver=1.1.0" rel="stylesheet">
+    <link href="{{config('app.url')}}/public/Resume/css/bootstrap.min.css?ver=1.1.0" rel="stylesheet">
+    <link href="{{config('app.url')}}/public/Resume/css/main.min.css?ver=1.1.0" rel="stylesheet">
     <link rel="shortcut icon" href="{{config('app.url')}}/storage/images/site/{{$global_settings->favicon}}" type="image/x-icon">
     <link rel="icon" href="{{config('app.url')}}/storage/images/site/{{$global_settings->favicon}}" type="image/x-icon">
     <noscript>
@@ -120,7 +121,7 @@
         <div class="profile-page">
             <div class="wrapper">
                 <div class="page-header page-header-small" filter-color="green">
-                    <div class="page-header-image" data-parallax="true" style="background-image: url('{{config('app.url')}}/public/CV/images/cc-bg-1.jpg')"></div>
+                    <div class="page-header-image" data-parallax="true" style="background-image: url('{{config('app.url')}}/public/Resume/images/cc-bg-1.jpg')"></div>
                     <div class="container">
                         <div class="content-center">
                             <div class="cc-profile-image"><a href="#"><img src="{{config('app.url')}}/storage/images/profile/{{$basic_information->profile_picture}}" alt="Image"/></a></div>
@@ -260,7 +261,7 @@
                                                 <div class="row">
                                                     <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
                                                         <div class="card-body cc-experience-header">
-                                                            <img src="{{config('app.url')}}/public/CV/images/github-repositories.jpg" alt="{{$github->name}}" class="img-fluid"/>
+                                                            <img src="{{config('app.url')}}/public/Resume/images/github-repositories.jpg" alt="{{$github->name}}" class="img-fluid"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
@@ -326,7 +327,7 @@
             </div>
         </div>
         <div class="section" id="contact">
-            <div class="cc-contact-information" style="background-image: url('{{config('app.url')}}/public/CV/images/staticmap.png')">
+            <div class="cc-contact-information" style="background-image: url('{{config('app.url')}}/public/Resume/images/staticmap.png')">
                 <div class="container">
                     <div class="cc-contact">
                         <div class="row">
@@ -414,12 +415,12 @@
         <p>&copy; All rights reserved.</p>
     </div>
 </footer>
-<script src="{{config('app.url')}}/public/CV/js/core/jquery.3.2.1.min.js?ver=1.1.0"></script>
-<script src="{{config('app.url')}}/public/CV/js/core/popper.min.js?ver=1.1.0"></script>
-<script src="{{config('app.url')}}/public/CV/js/core/bootstrap.min.js?ver=1.1.0"></script>
-<script src="{{config('app.url')}}/public/CV/js/now-ui-kit.js?ver=1.1.0"></script>
-<script src="{{config('app.url')}}/public/CV/js/aos.js?ver=1.1.0"></script>
-<script src="{{config('app.url')}}/public/CV/scripts/main.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/js/core/jquery.3.2.1.min.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/js/core/popper.min.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/js/core/bootstrap.min.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/js/now-ui-kit.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/js/aos.js?ver=1.1.0"></script>
+<script src="{{config('app.url')}}/public/Resume/scripts/main.js?ver=1.1.0"></script>
 <script>
     function getRecaptchaToken() {
         grecaptcha.ready(function () {
