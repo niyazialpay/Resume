@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 2.13.0
+
+- Only catch `BindingResolutionException` when trying to get the PSR-7 request object from the container
+
 ## 2.12.1
 
 - Fix incorrect `release` and `environment` values when using the `sentry:test` command

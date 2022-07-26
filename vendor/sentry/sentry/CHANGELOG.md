@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 3.7.0 (2022-07-18)
+
+- Fix `Scope::getTransaction()` so that it returns also unsampled transactions (#1334)
+- Set the event extras by taking the data from the Monolog record's extra (#1330)
+
 ## 3.6.1 (2022-06-27)
 
 - Set the `sentry-trace` header when using the tracing middleware (#1331)
