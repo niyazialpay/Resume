@@ -50,11 +50,11 @@ class NewCommand extends Command
                             ($input->getOption('prompt-jetstream') && (new SymfonyStyle($input, $output))->confirm('Would you like to install the Laravel Jetstream application scaffolding?', false));
 
         if ($installJetstream) {
-            $output->write(PHP_EOL."<fg=magenta>
-    |     |         |
-    |,---.|--- ,---.|--- ,---.,---.,---.,-.-.
-    ||---'|    `---.|    |    |---',---|| | |
-`---'`---'`---'`---'`---'`    `---'`---^` ' '</>".PHP_EOL.PHP_EOL);
+            $output->write(PHP_EOL."  <fg=magenta>
+      |     |         |
+      |,---.|--- ,---.|--- ,---.,---.,---.,-.-.
+      ||---'|    `---.|    |    |---',---|| | |
+  `---'`---'`---'`---'`---'`    `---'`---^` ' '</>".PHP_EOL.PHP_EOL);
 
             $stack = $this->jetstreamStack($input, $output);
 
@@ -62,12 +62,12 @@ class NewCommand extends Command
                     ? (bool) $input->getOption('teams')
                     : (new SymfonyStyle($input, $output))->confirm('Will your application use teams?', false);
         } else {
-            $output->write(PHP_EOL.'<fg=red> _                               _
-| |                             | |
-| |     __ _ _ __ __ ___   _____| |
-| |    / _` | \'__/ _` \ \ / / _ \ |
-| |___| (_| | | | (_| |\ V /  __/ |
-|______\__,_|_|  \__,_| \_/ \___|_|</>'.PHP_EOL.PHP_EOL);
+            $output->write(PHP_EOL.'  <fg=red> _                               _
+  | |                             | |
+  | |     __ _ _ __ __ ___   _____| |
+  | |    / _` | \'__/ _` \ \ / / _ \ |
+  | |___| (_| | | | (_| |\ V /  __/ |
+  |______\__,_|_|  \__,_| \_/ \___|_|</>'.PHP_EOL.PHP_EOL);
         }
 
         sleep(1);
@@ -108,7 +108,7 @@ class NewCommand extends Command
             if ($name !== '.') {
                 $this->replaceInFile(
                     'APP_URL=http://localhost',
-                    'APP_URL=http://'.$name.'.test',
+                    'APP_URL='.$this->generateAppUrl($name),
                     $directory.'/.env'
                 );
 
@@ -135,9 +135,10 @@ class NewCommand extends Command
 
             if ($input->getOption('github') !== false) {
                 $this->pushToGitHub($name, $directory, $input, $output);
+                $output->writeln('');
             }
 
-            $output->writeln(PHP_EOL.'<comment>Application ready! Build something amazing.</comment>');
+            $output->writeln('  <bg=blue;fg=white> INFO </> Application ready! <options=bold>Build something amazing.</>'.PHP_EOL);
         }
 
         return $process->getExitCode();
@@ -176,8 +177,6 @@ class NewCommand extends Command
         $commands = array_filter([
             $this->findComposer().' require laravel/jetstream',
             trim(sprintf(PHP_BINARY.' artisan jetstream:install %s %s', $stack, $teams ? '--teams' : '')),
-            'npm install && npm run build',
-            PHP_BINARY.' artisan storage:link',
         ]);
 
         $this->runCommands($commands, $input, $output);
@@ -276,7 +275,7 @@ class NewCommand extends Command
         $process->run();
 
         if (! $process->isSuccessful()) {
-            $output->writeln('Warning: make sure the "gh" CLI tool is installed and that you\'re authenticated to GitHub. Skipping...');
+            $output->writeln('  <bg=yellow;fg=black> WARN </> Make sure the "gh" CLI tool is installed and that you\'re authenticated to GitHub. Skipping...'.PHP_EOL);
 
             return;
         }
@@ -288,8 +287,7 @@ class NewCommand extends Command
         $branch = $input->getOption('branch') ?: $this->defaultBranch();
 
         $commands = [
-            "gh repo create {$name} --source=. {$flags}",
-            "git -c credential.helper= -c credential.helper='!gh auth git-credential' push -q -u origin {$branch}",
+            "gh repo create {$name} --source=. --push {$flags}",
         ];
 
         $this->runCommands($commands, $input, $output, ['GIT_TERMINAL_PROMPT' => 0]);
@@ -306,6 +304,30 @@ class NewCommand extends Command
         if ((is_dir($directory) || is_file($directory)) && $directory != getcwd()) {
             throw new RuntimeException('Application already exists!');
         }
+    }
+
+    /**
+     * Generate a valid APP_URL for the given application name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function generateAppUrl($name)
+    {
+        $hostname = mb_strtolower($name).'.test';
+
+        return $this->canResolveHostname($hostname) ? 'http://'.$hostname : 'http://localhost';
+    }
+
+    /**
+     * Determine whether the given hostname is resolvable.
+     *
+     * @param  string  $hostname
+     * @return bool
+     */
+    protected function canResolveHostname($hostname)
+    {
+        return gethostbyname($hostname.'.') !== $hostname.'.';
     }
 
     /**
@@ -376,7 +398,7 @@ class NewCommand extends Command
             try {
                 $process->setTty(true);
             } catch (RuntimeException $e) {
-                $output->writeln('Warning: '.$e->getMessage());
+                $output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
             }
         }
 
