@@ -2,6 +2,86 @@
 
 ## Unreleased
 
+## 3.2.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.2.0.
+This release adds support for Laravel 10.
+
+### Features
+
+- Add support for Laravel 10 [(#630)](https://github.com/getsentry/sentry-laravel/pull/630)
+    - Thanks to [@jnoordsij](https://github.com/jnoordsij) for their contribution.
+- Add `tracing.http_client_requests` option [(#641)](https://github.com/getsentry/sentry-laravel/pull/641)
+    - You can now disable HTTP client tracing in your `confgi/sentry.php` file
+
+      ```php
+      'tracing' => [
+          'http_client_requests' => true|false, // This feature is enabled by default
+      ],
+      ```
+
+## 3.1.3
+
+- Increase debug trace limit count to 20 in `Integration::makeAnEducatedGuessIfTheExceptionMaybeWasHandled()` (#622)
+    - Look futher into the backtrace to check if `report()` was called.
+- Run the testsuite against PHP 8.2 (#624)
+
+## 3.1.2
+
+- Set `traces_sample_rate` to `null` by default (#616)
+    - Make sure to update your `config/sentry.php`.
+
+      Replace
+      ```
+      'traces_sample_rate' => (float)(env('SENTRY_TRACES_SAMPLE_RATE', 0.0)),
+      ```
+      with
+      ```
+      'traces_sample_rate' => env('SENTRY_TRACES_SAMPLE_RATE') === null ? null : (float)env('SENTRY_TRACES_SAMPLE_RATE'),
+      ```
+- Fix exceptions sent via the `report()` helper being marked as unhandled (#617)
+
+## 3.1.1
+
+- Fix missing scope information on unhandled exceptions (#611)
+
+## 3.1.0
+
+- Unhandled exceptions are now correctly marked as `handled: false` and displayed as such on the issues list and detail page (#608)
+   - Make sure to update your `App/Exceptions/Handler.php` file to enable this new behaviour. See https://docs.sentry.io/platforms/php/guides/laravel/
+
+## 3.0.1
+
+- Remove incorrect checks if performance tracing should be enabled and rely on the transaction sampling decision instead (#600)
+- Fix `SENTRY_RELEASE` .env variable not working when using config caching (#603)
+
+## 3.0.0
+
+**New features**
+
+- We are now creating more spans to give you better insights into the performance of your application
+    - Add a `http.client` span. This span indicates the time that is spent when using the Laravel HTTP client (#585)
+    - Add a `http.route` span. This span indicates the time that is spent inside a controller method or route closure (#593)
+    - Add a `db.transaction` span. This span indicates the time that is spent inside a database transaction (#594)
+- Add support for [Dynamic Sampling](https://docs.sentry.io/product/data-management-settings/dynamic-sampling/), allowing developers to set a server-side sampling rate without the need to re-deploy their applications
+    - Add support for Dynamic Sampling (#572)
+
+**Breaking changes**
+
+- Laravel Lumen is no longer supported
+    - Drop support for Laravel Lumen (#579)
+- Laravel versions 5.0 - 5.8 are no longer supported
+    - Drop support for Laravel 5.x (#581)
+- Remove `Sentry\Integration::extractNameForRoute()`, it's alternative `Sentry\Integration::extractNameAndSourceForRoute()` is marked as `@internal` (#580)
+- Remove internal `Sentry\Integration::currentTracingSpan()`, use `SentrySdk::getCurrentHub()->getSpan()` if you were using this internal method (#592)
+
+**Other changes**
+
+- Set the tracing transaction name on the `Illuminate\Routing\Events\RouteMatched` instead of at the end of the request (#580)
+- Remove extracting route name or controller for transaction names (#583). This unifies the transaction names to a more concise format.
+- Simplify Sentry meta tag retrieval, by adding `Sentry\Laravel\Integration::sentryMeta()` (#586)
+- Fix tracing with nested queue jobs (mostly when running jobs in the `sync` driver) (#592)
+
 ## 2.14.2
 
 - Fix extracting command input resulting in errors when calling Artisan commands programatically with `null` as an argument value (#589)
@@ -9,6 +89,7 @@
 ## 2.14.1
 
 - Fix not setting the correct SDK ID and version when running the `sentry:test` command (#582)
+- Transaction names now only show the parameterized URL (`/some/{route}`) instead of the route name or controller class (#583)
 
 ## 2.14.0
 

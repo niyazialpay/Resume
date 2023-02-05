@@ -8,22 +8,24 @@ _Bad software is everywhere, and we're tired of it. Sentry is on a mission to he
 
 # Official Sentry SDK for Laravel
 
-[![Build Status](https://img.shields.io/github/checks-status/getsentry/sentry-laravel/master)](https://github.com/getsentry/sentry-laravel/actions)
-[![Composer page link -- version](https://img.shields.io/packagist/v/getsentry/sentry-lararvel.svg)](https://packagist.org/packages/sentry/sentry-laravel)
+[![CI](https://github.com/getsentry/sentry-laravel/actions/workflows/ci.yaml/badge.svg)](https://github.com/getsentry/sentry-laravel/actions/workflows/ci.yaml)
+[![Latest Stable Version](https://poser.pugx.org/sentry/sentry-laravel/v/stable)](https://packagist.org/packages/sentry/sentry-laravel)
+[![License](https://poser.pugx.org/sentry/sentry-laravel/license)](https://packagist.org/packages/sentry/sentry-laravel)
+[![Total Downloads](https://poser.pugx.org/sentry/sentry-laravel/downloads)](https://packagist.org/packages/sentry/sentry-laravel)
+[![Monthly Downloads](https://poser.pugx.org/sentry/sentry-laravel/d/monthly)](https://packagist.org/packages/sentry/sentry-laravel)
 [![Discord](https://img.shields.io/discord/621778831602221064)](https://discord.gg/cWnMQeA)
 
 This is the official Laravel SDK for [Sentry](https://sentry.io/)
 
----
-
 ## Getting Started
 
-The installation step below work on the latest versions of the Laravel framework (8.x and 9.x).
+The installation step below work on the latest versions of the Laravel framework (8.x, 9.x and 10.x).
 
 For other Laravel or Lumen versions see:
 
-- [Laravel 8.x & 9.x](https://docs.sentry.io/platforms/php/guides/laravel/)
-- [Laravel 5.x, 6.x & 7.x](https://docs.sentry.io/platforms/php/guides/laravel/other-versions/laravel5-6-7/)
+- [Laravel 8.x & 9.x & 10.x](https://docs.sentry.io/platforms/php/guides/laravel/)
+- [Laravel 6.x & 7.x](https://docs.sentry.io/platforms/php/guides/laravel/other-versions/laravel6-7/)
+- [Laravel 5.x](https://docs.sentry.io/platforms/php/guides/laravel/other-versions/laravel5/)
 - [Laravel 4.x](https://docs.sentry.io/platforms/php/guides/laravel/other-versions/laravel4/)
 - [Lumen](https://docs.sentry.io/platforms/php/guides/laravel/other-versions/lumen/)
 
@@ -38,12 +40,12 @@ composer require sentry/sentry-laravel
 Enable capturing unhandled exception to report to Sentry by making the following change to your `App/Exceptions/Handler.php`:
 
 ```php {filename:App/Exceptions/Handler.php}
-public function register()
+use Sentry\Laravel\Integration;
+
+public function register(): void
 {
     $this->reportable(function (Throwable $e) {
-        if (app()->bound('sentry')) {
-            app('sentry')->captureException($e);
-        }
+        Integration::captureUnhandledException($e);
     });
 }
 ```
@@ -67,10 +69,12 @@ SENTRY_LARAVEL_DSN=___PUBLIC_DSN___
 ### Usage
 
 ```php
+use function Sentry\captureException;
+
 try {
     $this->functionFailsForSure();
 } catch (\Throwable $exception) {
-    \Sentry\captureException($exception);
+    captureException($exception);
 }
 ```
 
@@ -78,15 +82,22 @@ try {
 
 ## Laravel Version Compatibility
 
+The Laravel versions listed below are all currently supported:
+
+- Laravel `>= 10.x.x` on PHP `>= 8.1` is supported starting from `3.2.0`
+- Laravel `>= 9.x.x` on PHP `>= 8.0` is supported starting from `2.11.0`
+- Laravel `>= 8.x.x` on PHP `>= 7.3` is supported starting from `1.9.0`
+- Laravel `>= 7.x.x` on PHP `>= 7.2` is supported starting from `1.7.0`
+- Laravel `>= 6.x.x` on PHP `>= 7.2` is supported starting from `1.2.0`
+
+Please note that starting with version `>= 2.0.0` we require PHP Version `>= 7.2` because we are using our new [PHP SDK](https://github.com/getsentry/sentry-php) underneath.
+
+The Laravel and Lumen version listed below were supported in previous versions:
+
 - Laravel `<= 4.2.x` is supported until `0.8.x`
 - Laravel `<= 5.7.x` on PHP `<= 7.0` is supported until `0.11.x`
-- Laravel `>= 5.x.x` on PHP `>= 7.1` is supported in all versions
-- Laravel `>= 6.x.x` on PHP `>= 7.2` is supported starting from `1.2.0`
-- Laravel `>= 7.x.x` on PHP `>= 7.2` is supported starting from `1.7.0`
-- Laravel `>= 8.x.x` on PHP `>= 7.3` is supported starting from `1.9.0`
-- Laravel `>= 9.x.x` on PHP `>= 8.0` is supported starting from `2.11.0`
-
-Please note that of version `>= 2.0.0` we require PHP Version `>= 7.2` because we are using our new [PHP SDK](https://github.com/getsentry/sentry-php) underneath.
+- Laravel `>= 5.x.x` on PHP `>= 7.1` is supported until `2.14.x`
+- Laravel Lumen is supported until `2.14.x`
 
 ## Contributing to the SDK
 
