@@ -3,9 +3,12 @@
 namespace Sentry\Laravel;
 
 use Illuminate\Routing\Route;
-use Illuminate\Support\Str;
+use Sentry\EventHint;
+use Sentry\EventId;
+use Sentry\ExceptionMechanism;
 use Sentry\SentrySdk;
-use Sentry\Tracing\Span;
+use Sentry\Tracing\TransactionSource;
+use Throwable;
 use function Sentry\addBreadcrumb;
 use function Sentry\configureScope;
 use Sentry\Breadcrumb;
@@ -19,11 +22,6 @@ class Integration implements IntegrationInterface
      * @var null|string
      */
     private static $transaction;
-
-    /**
-     * @var null|string
-     */
-    private static $baseControllerNamespace;
 
     /**
      * {@inheritdoc}
@@ -94,14 +92,6 @@ class Integration implements IntegrationInterface
     }
 
     /**
-     * @param null|string $namespace
-     */
-    public static function setControllersBaseNamespace(?string $namespace): void
-    {
-        self::$baseControllerNamespace = $namespace !== null ? trim($namespace, '\\') : null;
-    }
-
-    /**
      * Block until all async events are processed for the HTTP transport.
      *
      * @internal This is not part of the public API and is here temporarily until
@@ -117,150 +107,132 @@ class Integration implements IntegrationInterface
     }
 
     /**
-     * Extract the readable name for a route.
+     * Extract the readable name for a route and the transaction source for where that route name came from.
      *
      * @param \Illuminate\Routing\Route $route
      *
-     * @return string
+     * @return array{0: string, 1: \Sentry\Tracing\TransactionSource}
+     *
+     * @internal This helper is used in various places to extra meaninful info from a Laravel Route object.
      */
-    public static function extractNameForRoute(Route $route): string
+    public static function extractNameAndSourceForRoute(Route $route): array
     {
-        $routeName = null;
-
-        // someaction (route name/alias)
-        if ($route->getName()) {
-            $routeName = self::extractNameForNamedRoute($route->getName());
-        }
-
-        // Some\Controller@someAction (controller action)
-        if (empty($routeName) && $route->getActionName()) {
-            $routeName = self::extractNameForActionRoute($route->getActionName());
-        }
-
-        // /someaction // Fallback to the url
-        if (empty($routeName) || $routeName === 'Closure') {
-            $routeName = '/' . ltrim($route->uri(), '/');
-        }
-
-        return $routeName;
-    }
-
-    /**
-     * Extract the readable name for a Lumen route.
-     *
-     * @param array  $routeData The array of route data
-     * @param string $path      The path of the request
-     *
-     * @return string
-     */
-    public static function extractNameForLumenRoute(array $routeData, string $path): string
-    {
-        $routeName = null;
-
-        $route = $routeData[1] ?? [];
-
-        // someaction (route name/alias)
-        if (!empty($route['as'])) {
-            $routeName = self::extractNameForNamedRoute($route['as']);
-        }
-
-        // Some\Controller@someAction (controller action)
-        if (empty($routeName) && !empty($route['uses'])) {
-            $routeName = self::extractNameForActionRoute($route['uses']);
-        }
-
-        // /someaction // Fallback to the url
-        if (empty($routeName) || $routeName === 'Closure') {
-            $routeUri = array_reduce(
-                array_keys($routeData[2]),
-                static function ($carry, $key) use ($routeData) {
-                    return str_replace($routeData[2][$key], "{{$key}}", $carry);
-                },
-                $path
-            );
-
-            $routeName = '/' . ltrim($routeUri, '/');
-        }
-
-        return $routeName;
-    }
-
-    /**
-     * Take a route name and return it only if it's a usable route name.
-     *
-     * @param string $name
-     *
-     * @return string|null
-     */
-    private static function extractNameForNamedRoute(string $name): ?string
-    {
-        // Laravel 7 route caching generates a route names if the user didn't specify one
-        // theirselfs to optimize route matching. These route names are useless to the
-        // developer so if we encounter a generated route name we discard the value
-        if (Str::contains($name, 'generated::')) {
-            return null;
-        }
-
-        // If the route name ends with a `.` we assume an incomplete group name prefix
-        // we discard this value since it will most likely not mean anything to the
-        // developer and will be duplicated by other unnamed routes in the group
-        if (Str::endsWith($name, '.')) {
-            return null;
-        }
-
-        return $name;
-    }
-
-    /**
-     * Take a controller action and strip away the base namespace if needed.
-     *
-     * @param string $action
-     *
-     * @return string
-     */
-    private static function extractNameForActionRoute(string $action): string
-    {
-        $routeName = ltrim($action, '\\');
-
-        $baseNamespace = self::$baseControllerNamespace ?? '';
-
-        if (empty($baseNamespace)) {
-            return $routeName;
-        }
-
-        // Strip away the base namespace from the action name
-        // @see: Str::after, but this is not available before Laravel 5.4 so we use a inlined version
-        return array_reverse(explode($baseNamespace . '\\', $routeName, 2))[0];
+        return [
+            '/' . ltrim($route->uri(), '/'),
+            TransactionSource::route(),
+        ];
     }
 
     /**
      * Retrieve the meta tags with tracing information to link this request to front-end requests.
+     * This propagates the Dynamic Sampling Context.
+     *
+     * @return string
+     */
+    public static function sentryMeta(): string
+    {
+        return self::sentryTracingMeta() . self::sentryBaggageMeta();
+    }
+
+    /**
+     * Retrieve the `sentry-trace` meta tag with tracing information to link this request to front-end requests.
      *
      * @return string
      */
     public static function sentryTracingMeta(): string
     {
-        $span = self::currentTracingSpan();
+        $span = SentrySdk::getCurrentHub()->getSpan();
 
         if ($span === null) {
             return '';
         }
 
-        $content = sprintf('<meta name="sentry-trace" content="%s"/>', $span->toTraceparent());
-        // $content .= sprintf('<meta name="sentry-trace-data" content="%s"/>', $span->getDescription());
-
-        return $content;
+        return sprintf('<meta name="sentry-trace" content="%s"/>', $span->toTraceparent());
     }
 
     /**
-     * Get the current active tracing span from the scope.
+     * Retrieve the `baggage` meta tag with information to link this request to front-end requests.
+     * This propagates the Dynamic Sampling Context.
      *
-     * @return \Sentry\Tracing\Span|null
-     *
-     * @internal This is used internally as an easy way to retrieve the current active tracing span.
+     * @return string
      */
-    public static function currentTracingSpan(): ?Span
+    public static function sentryBaggageMeta(): string
     {
-        return SentrySdk::getCurrentHub()->getSpan();
+        $span = SentrySdk::getCurrentHub()->getSpan();
+
+        if ($span === null) {
+            return '';
+        }
+
+        return sprintf('<meta name="baggage" content="%s"/>', $span->toBaggage());
+    }
+
+    /**
+     * Capture a unhandled exception and report it to Sentry.
+     *
+     * @param \Throwable $throwable
+     *
+     * @return \Sentry\EventId|null
+     */
+    public static function captureUnhandledException(Throwable $throwable): ?EventId
+    {
+        // We instruct users to call `captureUnhandledException` in their exception handler, however this does not mean
+        // the exception was actually unhandled. Laravel has the `report` helper function that is used to report to a log
+        // file or Sentry, but that means they are handled otherwise they wouldn't have been routed through `report`. So to
+        // prevent marking those as "unhandled" we try and make an educated guess if the call to `captureUnhandledException`
+        // came from the `report` helper and shouldn't be marked as "unhandled" even though the come to us here to be reported
+        $handled = self::makeAnEducatedGuessIfTheExceptionMaybeWasHandled();
+
+        $hint = EventHint::fromArray([
+            'mechanism' => new ExceptionMechanism(ExceptionMechanism::TYPE_GENERIC, $handled),
+        ]);
+
+        return SentrySdk::getCurrentHub()->captureException($throwable, $hint);
+    }
+
+    /**
+     * Try to make an educated guess if the call came from the Laravel `report` helper.
+     *
+     * @see https://github.com/laravel/framework/blob/008a4dd49c3a13343137d2bc43297e62006c7f29/src/Illuminate/Foundation/helpers.php#L667-L682
+     *
+     * @return bool
+     */
+    private static function makeAnEducatedGuessIfTheExceptionMaybeWasHandled(): bool
+    {
+        // We limit the amount of backtrace frames since it is very unlikely to be any deeper
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 20);
+
+        // We are looking for `$handler->report()` to be called from the `report()` function
+        foreach ($trace as $frameIndex => $frame) {
+            // We need a frame with a class and function defined, we can skip frames missing either
+            if (!isset($frame['class'], $frame['function'])) {
+                continue;
+            }
+
+            // Check if the frame was indeed `$handler->report()`
+            if ($frame['type'] !== '->' || $frame['function'] !== 'report') {
+                continue;
+            }
+
+            // Make sure we have a next frame, we could have reached the end of the trace
+            if (!isset($trace[$frameIndex + 1])) {
+                continue;
+            }
+
+            // The next frame should contain the call to the `report()` helper function
+            $nextFrame = $trace[$frameIndex + 1];
+
+            // If a class was set or the function name is not `report` we can skip this frame
+            if (isset($nextFrame['class']) || !isset($nextFrame['function']) || $nextFrame['function'] !== 'report') {
+                continue;
+            }
+
+            // If we reached this point we can be pretty sure the `report` function was called
+            // and we can come to the educated conclusion the exception was indeed handled
+            return true;
+        }
+
+        // If we reached this point we can be pretty sure the `report` function was not called
+        return false;
     }
 }

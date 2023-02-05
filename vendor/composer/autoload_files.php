@@ -22,7 +22,6 @@ return array(
     'c964ee0ededf28c96ebd9db5099ef910' => $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
     'fb4ca2d97fe7ba6af750497425204e70' => $vendorDir . '/sentry/sentry/src/functions.php',
     '3bd81c9b8fcc150b69d8b63b4d2ccf23' => $vendorDir . '/spatie/flare-client-php/src/helpers.php',
-    '23c18046f52bef3eea034657bafda50f' => $vendorDir . '/symfony/polyfill-php81/bootstrap.php',
     '09f6b20656683369174dd6fa83b7e5fb' => $vendorDir . '/symfony/polyfill-uuid/bootstrap.php',
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
