@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\CVController::class, 'CV']);
+Route::get('/', [App\Http\Controllers\ResumeController::class, 'CV']);
 Route::post('/contact', [App\Http\Controllers\SendEmailController::class, 'contact']);
-Route::get('/share/{token}', [App\Http\Controllers\CVController::class, 'ShareCV']);
+Route::get('/share/{token}', [App\Http\Controllers\ResumeController::class, 'ShareCV']);
+Route::get('/PDF/{token?}', [App\Http\Controllers\ResumeController::class, 'PDFShareCV']);
+
 
 Auth::routes();
 
