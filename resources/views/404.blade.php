@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{config('app.url')}}/public/CV/css/bootstrap.min.css" />
-    <script src="{{config('app.url')}}/public/CV/js/core/jquery.3.2.1.min.js"></script>
+    <link rel="stylesheet" href="{{config('app.url')}}/public/Resume/css/bootstrap.min.css" />
+    <script src="{{config('app.url')}}/public/Resume/js/core/jquery.3.2.1.min.js"></script>
     <style>
         body{
             background: #000082;

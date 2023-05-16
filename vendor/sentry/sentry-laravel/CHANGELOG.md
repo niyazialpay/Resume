@@ -1,6 +1,135 @@
 # Changelog
 
-## Unreleased
+## 3.4.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.4.0.
+
+### Features
+
+- Add helper to report lazy loading violations [(#678)](https://github.com/getsentry/sentry-laravel/pull/678)
+
+  We've added a new helper that makes reporting lazy loading violation to Sentry in production very easy:
+    
+  ```php
+  // See: https://laravel.com/docs/10.x/eloquent-relationships#preventing-lazy-loading
+  \Illuminate\Database\Eloquent\Model::preventLazyLoading();
+
+  // In production we just report the lazy loading violation instead of crashing the application since it's a performance issue not a security issue
+  if (app()->isProduction()) {
+    \Illuminate\Database\Eloquent\Model::handleLazyLoadingViolationUsing(
+      \Sentry\Laravel\Integration::lazyLoadingViolationReporter(),
+    );
+  }
+  ```
+  
+  We let you know which model and relation caused the lazy loading violation and we also include the origin of the violation so you can find the culprit quickly.
+
+- Reintroduce Laravel Lumen support [(#685)](https://github.com/getsentry/sentry-laravel/pull/685)
+
+  We dropped support for Laravel Lumen (10.x) in v3.0.0, but we are happy to announce that it is back!
+
+## 3.3.3
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.3.3.
+
+### Bug Fixes
+
+- Fix `CheckIn` constructor argument order [(#680)](https://github.com/getsentry/sentry-laravel/pull/680)
+- Fix missing breadcrumbs for jobs throwing an exception [(#633)](https://github.com/getsentry/sentry-laravel/pull/633)
+
+## 3.3.2
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.3.2.
+
+### Bug Fixes
+
+- Fix "Object of class Closure could not be converted to string" error when tracing `redis_commands` [(#668)](https://github.com/getsentry/sentry-laravel/pull/668)
+
+## 3.3.1
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.3.1.
+
+### Bug Fixes
+
+-  Fix scheduled commands running in the background not reporting success/failure [(#664)](https://github.com/getsentry/sentry-laravel/pull/664)
+
+## 3.3.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Laravel SDK v3.3.0.
+This release adds initial support for [Cron Monitoring](https://docs.sentry.io/product/crons/) as well as new performance spans and breadcrumbs.
+
+> **Warning**
+> Cron Monitoring is currently in beta. Beta features are still in-progress and may have bugs. We recognize the irony.
+> If you have any questions or feedback, please email us at crons-feedback@sentry.io, reach out via Discord (#cronjobs), or open an issue.
+
+### Features
+
+- Add inital support for Cron Monitoring [(#659)](https://github.com/getsentry/sentry-laravel/pull/659)
+
+  After creating your Cron Monitor on https://sentry.io, you can add the `sentryMonitor()` macro to your scheduled tasks defined in your `app/Console/Kernel.php` file.
+  This will let Sentry know if your scheduled task started, whether the task was successful or failed, and its duration.
+
+  ```php
+  protected function schedule(Schedule $schedule)
+  {
+      $schedule->command('emails:send')
+          ->everyHour()
+          ->sentryMonitor('<your-monitor-slug>'); // add this line
+  }
+  ```
+
+- Add Livewire tracing integration [(#657)](https://github.com/getsentry/sentry-laravel/pull/657)
+
+  You can enable this feature by adding new config options to your `config/sentry.php` file.
+
+  ```php
+  'breadcrumbs' => [
+      // Capture Livewire components in breadcrumbs
+      'livewire' => true,
+  ],
+  'tracing' => [
+      // Capture Livewire components as spans
+      'livewire' => true,
+  ],
+  ```
+
+- Add Redis operation spans & cache event breadcrumbs [(#656)](https://github.com/getsentry/sentry-laravel/pull/656)
+
+  You can enable this feature by adding new config options to your `config/sentry.php` file.
+
+  ```php
+  'breadcrumbs' => [
+      // Capture Laravel cache events in breadcrumbs
+      'cache' => true,
+  ],
+  'tracing' => [
+      // Capture Redis operations as spans (this enables Redis events in Laravel)
+      'redis_commands' => env('SENTRY_TRACE_REDIS_COMMANDS', false),
+
+      // Try to find out where the Redis command originated from and add it to the command spans
+      'redis_origin' => true,
+  ],
+
+- Add HTTP client request breadcrumbs [(#640)](https://github.com/getsentry/sentry-laravel/pull/640)
+
+  You can enable this feature by adding a new config option to your `config/sentry.php` file.
+
+  ```php
+  'breadcrumbs' => [
+      // Capture HTTP client requests information in breadcrumbs
+      'http_client_requests' => true,
+  ],
+
+- Offer the installation of a JavaScript SDK when running `sentry:publish` [(#647)](https://github.com/getsentry/sentry-laravel/pull/647)
+
+### Bug Fixes
+
+- Fix a log channel context crash when unexpected values are passed [(#651)](https://github.com/getsentry/sentry-laravel/pull/651)
+
+### Misc
+
+- The SDK is now licensed under MIT [(#654)](https://github.com/getsentry/sentry-php/pull/654)
+  - Read more about Sentry's licensing [here](https://open.sentry.io/licensing/).
 
 ## 3.2.0
 
@@ -12,7 +141,7 @@ This release adds support for Laravel 10.
 - Add support for Laravel 10 [(#630)](https://github.com/getsentry/sentry-laravel/pull/630)
     - Thanks to [@jnoordsij](https://github.com/jnoordsij) for their contribution.
 - Add `tracing.http_client_requests` option [(#641)](https://github.com/getsentry/sentry-laravel/pull/641)
-    - You can now disable HTTP client tracing in your `confgi/sentry.php` file
+    - You can now disable HTTP client tracing in your `config/sentry.php` file
 
       ```php
       'tracing' => [
