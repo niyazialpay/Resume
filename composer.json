@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "barryvdh/laravel-dompdf": "^2.0",
         "geoip2/geoip2": "^2.13",
         "guzzlehttp/guzzle": "^7.2",
         "illuminate/support": "^10.1",
@@ -15,10 +16,9 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
-        "sentry/sentry-laravel": "^3.2",
-        "barryvdh/laravel-dompdf": "^2.0",
+        "lcobucci/jwt": "^4.0",
         "predis/predis": "^1.1",
-        "lcobucci/jwt": "^4.0"
+        "sentry/sentry-laravel": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -73,5 +73,3 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 }
-
-
