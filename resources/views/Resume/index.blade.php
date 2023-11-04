@@ -227,7 +227,7 @@
                         <div class="ml-auto mr-auto">
                             <div class="row">
                                 @foreach($portfolios as $portfolio)
-                                    <div class="col-md-3 col-sm-6">
+                                    <div class="col-md-4 col-sm-6">
                                         <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="{{$portfolio->portfolio_web}}" target="_blank" rel="nofollow">
                                                 <figure class="cc-effect"><img src="{{config('app.url')}}/storage/images/portfolio/{{$portfolio->portfolio_image}}" alt="{{$portfolio->portfolio_name}}" class="portfolio-image"/>
                                                     <figcaption>
